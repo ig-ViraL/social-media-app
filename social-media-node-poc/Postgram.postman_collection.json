@@ -1,0 +1,512 @@
+{
+	"info": {
+		"_postman_id": "4890552a-5750-48b4-b001-53c7bad68dae",
+		"name": "Postgram",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9747185"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\":\"Dhruv\",\r\n    \"lastname\":\"bhagat\",\r\n    \"username\":\"dhruvwo2\",\r\n    \"email\":\"dhruvwebosmotic2@gmail.com\",\r\n    \"password\":\"Dhruv@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/signup",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send verification code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"dhruvwebosmotic@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/send-verification-otp",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"send-verification-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"dhruvwebosmotic@gmail.com\",\r\n    \"password\":\"Dhruv@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"dhruvwebosmotic@gmail.com\",\r\n    \"otp\":\"232322\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/verify-otp",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"verify-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/auth/verify-email",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"verify-email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "Create post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Post for nature",
+											"type": "default"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/admin/Pictures/Screenshots/Screenshot (1).png"
+										},
+										{
+											"key": "description",
+											"value": "This is amazing",
+											"type": "default"
+										},
+										{
+											"key": "isPrivate",
+											"value": "false",
+											"description": "true= private, false= public",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/posts/create-post",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"posts",
+										"create-post"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get feed post",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/posts/get-feed-post",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"posts",
+										"get-feed-post"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Get user profile",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/users/get-user-profile",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"get-user-profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unfollow user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"649e809bf91d0723c9c9e72d\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/users/unfollow-user",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"unfollow-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show user profile",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/users/show-user-profile?userId=649e809bf91d0723c9c9e72d",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"show-user-profile"
+									],
+									"query": [
+										{
+											"key": "userId",
+											"value": "649e809bf91d0723c9c9e72d"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Follow user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"649e809bf91d0723c9c9e72d\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/users/follow-user",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"follow-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accept follow request",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"649e809bf91d0723c9c9e72d\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/users/accept-follow-requests",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"accept-follow-requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unfollow user",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"649e809bf91d0723c9c9e72d\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/users/unfollow-user",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"unfollow-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get follow requests",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/users/get-follow-requests",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"get-follow-requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user profile",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstname\":\"markoin\",\r\n    \"lastname\":\"weely\",\r\n    \"isPrivate\":true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/users/get-follow-requests",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"get-follow-requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all users",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/users/get-all-users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"get-all-users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
