@@ -1,65 +1,93 @@
-import { Button, Card, Col, Flex, Form, Input } from "antd";
+import { Alert, Button, Card, Col, Flex, Form, Input, Row } from "antd";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignInMutation } from "../store/apis/auth";
+import { useCallback } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function SignIn() {
-  const onSubmit = (data) => {
-    console.log(data, "::::: data");
-  };
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const [signIn, { isLoading, isError, error }] = useSignInMutation();
+
+  const onSubmit = useCallback(
+    async (data) => {
+      try {
+        const response = await signIn(data);
+        console.log(response);
+        await setAuth(response.data.data.accessToken);
+        navigate("/home");
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [navigate, setAuth, signIn]
+  );
+
   return (
-    <Flex style={{ height: "100vh" }} justify="center" align="center">
-      <Col lg={10} md={12} sm={14} xs={16}>
+    <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
+      <Col xs={22} sm={22} md={15} lg={10} xl={7}>
         <Card bordered={false}>
-          <Form name="Sign-in form" onFinish={onSubmit}>
+          <Form
+            disabled={isLoading}
+            layout="vertical"
+            name="sign-in-form"
+            onFinish={onSubmit}
+          >
+            {isError ? (
+              <Alert
+                message={error.data.message}
+                type="error"
+                style={{ marginBottom: 10 }}
+              />
+            ) : (
+              ""
+            )}
             <Form.Item
               label="Email"
               name="email"
-              required
               rules={[
-                {
-                  required: true,
-                  message: "Email is required",
-                },
-                {
-                  whitespace: false,
-                  message: "Whitespace not allowed.",
-                },
-                {
-                  type: "email",
-                  message: "Invalid email address",
-                },
+                { required: true, message: "Email is required" },
+                { type: "email", message: "Invalid email address" },
               ]}
             >
-              <Input />
+              <Input prefix={<MailOutlined />} />
             </Form.Item>
             <Form.Item
               label="Password"
               name="password"
-              required
               rules={[
+                { required: true, message: "Password is required" },
                 {
-                  required: true,
-                  message: "Password is required",
-                },
-                {
-                  pattern: /^[a-zA-Z0-9]+$/,
-                  message: "Username must contain only letters and numbers!",
+                  min: 8,
+                  message: "Password must be at least 8 characters",
                 },
               ]}
             >
-              <Input.Password />
+              <Input.Password prefix={<LockOutlined />} autoComplete="true" />
             </Form.Item>
-            <Form.Item
-              wrapperCol={{
-                offset: 6,
-                span: 24,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
+            <Flex justify="center" gap={"small"}>
+              <Col>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" loading={isLoading}>
+                    Sign In
+                  </Button>
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item>
+                  <Button type="primary" danger htmlType="reset">
+                    Reset
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Flex>
           </Form>
+          <div style={{ textAlign: "center" }}>
+            Don’t have account? <Link to={"/sign-up"}>Sign Up</Link>
+          </div>
         </Card>
       </Col>
-    </Flex>
+    </Row>
   );
 }

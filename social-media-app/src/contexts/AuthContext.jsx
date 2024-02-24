@@ -33,7 +33,9 @@ const deleteCookie = (name) => {
 };
 
 const setCookie = (name, value, expire) => {
-  document.cookie = `${name}=${value}, expires=${expire}`;
+  document.cookie = `${name}=${value}, expires=${new Date(
+    expire
+  ).toUTCString()}`;
 };
 
 const AuthContext = createContext();
@@ -47,19 +49,18 @@ export default function AuthProvider({ children }) {
   const token = auth.token || null;
 
   const removeAuth = () => {
-    deleteCookie;
+    deleteCookie("BeViral");
     setAuth({ token: null });
   };
 
   const addAuth = async (token) => {
     const tokenData = await parseJwt(token);
-    console.log(tokenData, "::::: tokenData");
-    setCookie("BeViral", token);
+    setCookie("BeViral", token, tokenData.exp);
     setAuth({ token: token });
   };
 
   const values = {
-    auth: token,
+    token: token,
     setAuth: addAuth,
     deleteAuth: removeAuth,
   };

@@ -1,20 +1,25 @@
-import React from "react";
+import React, { lazy } from "react";
 import {
   Navigate,
   Outlet,
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import SignIn from "./pages/SignIn";
-import AuthProvider, { useAuth } from "./contexts/AuthContext";
-import { Col, Row, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Provider } from "react-redux";
+import { store } from "./store/index";
+
+import { Layout, Row, Spin } from "antd";
 import PropTypes from "prop-types";
+import AuthProvider, { useAuth } from "./contexts/AuthContext";
+
+const SignIn = lazy(() => import("./pages/SignIn"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const Home = lazy(() => import("./pages/Home"));
 
 const AuthRedirect = ({ children, isAuthRoute }) => {
   const auth = useAuth();
   if (auth.token && !isAuthRoute) {
-    return <Navigate to={"/dashboard"} />;
+    return <Navigate to={"/home"} />;
   } else if (!auth.token && isAuthRoute) {
     return <Navigate to={"/sign-in"} />;
   }
@@ -28,6 +33,11 @@ AuthRedirect.propTypes = {
 };
 
 function App() {
+  const auth = useAuth();
+  const defaultNavigate = (
+    <Navigate to={auth?.token ? "/dashboard" : "/sign-in"} />
+  );
+
   const getAuthWrapper = (component, isAuthRoute = true) => {
     return (
       <AuthRedirect isAuthRoute={isAuthRoute}>
@@ -42,26 +52,24 @@ function App() {
                 alignItems: "center",
               }}
             >
-              <Col span={24}>
-                <Spin
-                  indicator={
-                    <LoadingOutlined
-                      style={{
-                        fontSize: 24,
-                      }}
-                      spin
-                    />
-                  }
-                />
-              </Col>
+              <Spin size="large" />
             </Row>
           }
         >
-          {component}
+          <Layout
+            style={{
+              height: "100vh",
+              width: "100%",
+              padding: 0,
+            }}
+          >
+            {component}
+          </Layout>
         </React.Suspense>
       </AuthRedirect>
     );
   };
+
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -77,15 +85,30 @@ function App() {
         },
         {
           path: "/sign-up",
-          element: getAuthWrapper(<SignIn />, false),
+          element: getAuthWrapper(<SignUp />, false),
+        },
+        {
+          path: "*",
+          element: defaultNavigate,
         },
       ],
     },
+    {
+      path: "/home",
+      element: getAuthWrapper(<Home />, true),
+    },
+    {
+      path: "*",
+      element: defaultNavigate,
+    },
   ]);
+
   return (
-    <AuthProvider>
-      <RouterProvider router={routes} />
-    </AuthProvider>
+    <Provider store={store}>
+      <AuthProvider>
+        <RouterProvider router={routes} />
+      </AuthProvider>
+    </Provider>
   );
 }
 
