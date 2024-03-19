@@ -12,9 +12,11 @@ import { Layout, Row, Spin } from "antd";
 import PropTypes from "prop-types";
 import AuthProvider, { useAuth } from "./contexts/AuthContext";
 
+const AuthLayout = lazy(() => import("./layout/AuthLayout"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Home = lazy(() => import("./pages/Home"));
+const Profile = lazy(() => import("./pages/Profile"));
 
 const AuthRedirect = ({ children, isAuthRoute }) => {
   const auth = useAuth();
@@ -95,7 +97,23 @@ function App() {
     },
     {
       path: "/home",
-      element: getAuthWrapper(<Home />, true),
+      element: getAuthWrapper(<AuthLayout />, true),
+      children: [
+        {
+          index: true,
+          element: getAuthWrapper(<Home />, true),
+        },
+      ],
+    },
+    {
+      path: "/user-profile",
+      element: getAuthWrapper(<AuthLayout />, true),
+      children: [
+        {
+          index: true,
+          element: getAuthWrapper(<Profile />, true),
+        },
+      ],
     },
     {
       path: "*",

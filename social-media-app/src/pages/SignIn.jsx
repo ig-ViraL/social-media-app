@@ -14,7 +14,6 @@ export default function SignIn() {
     async (data) => {
       try {
         const response = await signIn(data);
-        console.log(response);
         await setAuth(response.data.data.accessToken);
         navigate("/home");
       } catch (e) {
