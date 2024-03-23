@@ -106,11 +106,15 @@ function App() {
       ],
     },
     {
-      path: "/user-profile",
+      path: "/profile",
       element: getAuthWrapper(<AuthLayout />, true),
       children: [
         {
           index: true,
+          element: getAuthWrapper(<Profile />, true),
+        },
+        {
+          path: ":userId",
           element: getAuthWrapper(<Profile />, true),
         },
       ],
