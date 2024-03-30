@@ -1,3 +1,10 @@
+import { Flex } from "antd";
+
 export default function Profile() {
-  return <div>Profile</div>;
+  return (
+    <Flex style={{ height: "100%" }}>
+      <ProfileSection />
+      <UserPostSection />
+    </Flex>
+  );
 }

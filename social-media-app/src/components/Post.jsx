@@ -13,6 +13,7 @@ export default function Post({ data }) {
         !data.filePath ? (
           <img
             alt="example"
+            style={{ height: 300, width: "100%", objectFit: "none" }}
             src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
           />
         ) : (

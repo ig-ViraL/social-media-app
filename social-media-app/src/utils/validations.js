@@ -340,3 +340,8 @@ export const validationSchema = {
       }
     ),
 };
+
+export const imageValidations = {
+  types: ["image/jpeg", "image/png", "image/bmp", "image/gif", "image/webp"],
+  size: 20 * 1024 * 1024,
+};

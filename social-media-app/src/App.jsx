@@ -61,8 +61,10 @@ function App() {
           <Layout
             style={{
               height: "100vh",
+              maxHeight: "100vh",
               width: "100%",
               padding: 0,
+              overflowY: "hidden",
             }}
           >
             {component}

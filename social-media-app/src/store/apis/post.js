@@ -4,6 +4,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 export const postApi = createApi({
   reducerPath: "postApi",
   baseQuery: baseQuery(),
+  tagTypes: ["Post"],
   endpoints: (builder) => ({
     getFeedPost: builder.query({
       query: (query) => {
@@ -12,6 +13,7 @@ export const postApi = createApi({
           method: "GET",
         };
       },
+      providesTags: ["Post"],
     }),
     createPost: builder.mutation({
       query: (data) => ({
@@ -20,6 +22,7 @@ export const postApi = createApi({
         body: data,
         formData: true,
       }),
+      invalidatesTags: ["Post"],
     }),
     getFeedImage: builder.query({
       query: (query) => ({

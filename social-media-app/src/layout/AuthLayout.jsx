@@ -1,7 +1,8 @@
 import Sider from "antd/es/layout/Sider";
-import { AndroidOutlined, HomeOutlined } from "@ant-design/icons";
-import { Menu } from "antd";
+import { AndroidOutlined, HomeOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Flex, Menu, Spin } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useGetUserQuery } from "../store/apis/user";
 
 export default function AuthLayout() {
   const location = useLocation();
@@ -9,6 +10,8 @@ export default function AuthLayout() {
   const handleClick = (e) => {
     navigate(`/${e.key}`);
   };
+
+  const { data, isFetching, isLoading } = useGetUserQuery();
 
   const sideItems = [
     {
@@ -24,13 +27,26 @@ export default function AuthLayout() {
   ];
   return (
     <>
-      <Sider width={250}>
+      <Sider breakpoint="sm" collapsedWidth="0">
+        <Flex style={{ padding: 10, paddingLeft: 23 }} gap={10} align="center">
+          <Avatar
+            size="default"
+            icon={<UserOutlined />}
+            style={{ backgroundColor: "#1677ff" }}
+          />
+          {isFetching || isLoading ? (
+            <Spin />
+          ) : (
+            <span style={{ color: "white", fontSize: 20 }}>
+              {data.data.username}
+            </span>
+          )}
+        </Flex>
         <Menu
           theme="dark"
           defaultSelectedKeys={[`${location.pathname.split("/")[1]}`]}
           mode="inline"
           items={sideItems}
-          style={{ paddingTop: 50 }}
           onClick={handleClick}
         />
       </Sider>
