@@ -1,5 +1,5 @@
-import React from "react";
+import { Row } from "antd";
 
 export default function UserPostSection() {
-  return <div>UserPostSection</div>;
+  return <Row style={{ height: "60%" }}></Row>;
 }

@@ -23,27 +23,32 @@ export default function SearchFeed() {
   );
 
   const handleFilterChange = (data) => {
-    console.log(data);
+    filterOptions.forEach((option) => {
+      if (data.includes(option.value)) {
+        params.set(option.value, true);
+      } else {
+        params.set(option.value, false);
+      }
+    });
+    setParams(params);
   };
 
   return (
     <Row
       style={{
-        position: "sticky",
-        top: 0,
         padding: 15,
         zIndex: 10,
-        height: 70,
         width: "100%",
         justifyContent: "space-between",
       }}
+      gutter={[20, 20]}
     >
       <Col lg={12} md={12} sm={24} xs={24}>
         <Input
           size="large"
           defaultValue={params.get("search")}
           onChange={handleChange}
-          placeholder="Filter by title"
+          placeholder="Filter by post title"
           prefix={<SearchOutlined />}
         />
       </Col>
@@ -54,6 +59,9 @@ export default function SearchFeed() {
           mode="multiple"
           placeholder="Filter options"
           options={filterOptions}
+          defaultValue={filterOptions
+            .filter((option) => params.get(option.label))
+            .map((option) => option.value)}
           onChange={handleFilterChange}
         />
       </Col>

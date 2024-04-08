@@ -20,13 +20,7 @@ export default function PostFeed() {
   }
 
   return (
-    <Flex
-      style={{ height: "100%" }}
-      justify="center"
-      align="center"
-      gap={"large"}
-      vertical
-    >
+    <Flex style={{ overflow: "auto" }} align="center" gap={"large"} vertical>
       {isLoading || isFetching ? (
         <Spin size={"large"} />
       ) : data?.data?.data?.length ? (
